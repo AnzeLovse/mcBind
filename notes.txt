@@ -1,1 +1,2 @@
 stride = dolžina koraka
+biopython
