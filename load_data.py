@@ -16,7 +16,7 @@ def run():
     for record in SeqIO.parse(training_data,"fasta"):
         print(record.id)
         print(record.seq)
-        #class dobim tako da opis fasta locim po :
+        #class dobim tako da opis fasta locim po : in dobim vrednost
         print((record.description).split(":")[1])
 
 
