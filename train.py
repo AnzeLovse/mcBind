@@ -31,7 +31,7 @@ def get_seq(protein, t_data):
             if num_seq[i] <= 3:
                 X[i,num_seq[i]] = 1               
                
-        x_train.append(X)
+        x_train.append(X.flatten())
 
 
     x_train = np.array(x_train)
@@ -50,18 +50,17 @@ def get_class(protein, t_data):
 
 
     for record in SeqIO.parse(data,"fasta"):
-        y_train.append([int((record.description).split(":")[1])])
+        y_train.append(int((record.description).split(":")[1]))
 
 
     return np.array(y_train)
     
 def run (protein):
     model = Sequential()
-    model.add(Conv1D(100,kernel_size = 26, input_shape=(101,4), strides = 1, padding='valid', activation='relu'))
+    model.add(Conv1D(20,kernel_size = 26, input_shape=(None, (1, 404) ), strides = 4, padding='valid', activation='relu'))
     
     model.add(MaxPooling1D(pool_size=13, strides=13, padding='valid'))
     
-    model.add(Flatten())
 
     model.add(Dense(input_dim=640, units=100))
     
@@ -80,7 +79,7 @@ def run (protein):
     model.fit(get_seq(protein,"train"), get_class(protein,"train"), epochs=10, batch_size=100)
 
 
-    score = model.evaluate(get_seq(protein,"train"), get_class(protein,"train"), batch_size=100) #test data je drugacne velikosti samo 1000 primerov
+    score = model.evaluate(get_seq(protein,"test"), get_class(protein,"test"), batch_size=20) #test data je drugacne velikosti samo 1000 primerov
     
     print (score)
 
