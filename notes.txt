@@ -1,2 +1,7 @@
 stride = dolžina koraka
 biopython
+- depth: how many different kernels (and biases) will be convolved with the output of the previous layer; 
+- height and width of each kernel
+- stride: by how much we shift the kernel in each step to compute the next pixel in the result. 
+  This specifies the overlap between individual output pixels, and typically it is set to 1, corresponding to the formula given before. Note that larger strides result in smaller output sizes.
+-run("1_PARCLIP_AGO1234_hg19")
