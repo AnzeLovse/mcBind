@@ -3,7 +3,7 @@ from Bio import SeqIO
 import gzip
 import os
 from keras.models import Sequential
-from keras.layers import Dense, Activation, Conv1D, MaxPooling1D, Flatten
+from keras.layers import Dense, Activation, Conv1D, MaxPooling1D, Flatten, GlobalAveragePooling1D
 
 def load_data(path):
     data = gzip.open(os.path.join(path,"sequences.fa.gz"),"rt")
@@ -35,7 +35,10 @@ def get_seq(protein, t_data):
 
 
     x_train = np.array(x_train)
-    return (x_train)
+    x_train = np.expand_dims(x_train, axis=2)
+    print(x_train.shape)
+    print(x_train)
+    return x_train
         
   
 def get_class(protein, t_data):
@@ -50,33 +53,31 @@ def get_class(protein, t_data):
 
 
     for record in SeqIO.parse(data,"fasta"):
-        y_train.append(int((record.description).split(":")[1]))
+        v = int((record.description).split(":")[1])
+        y_train.append([int(v == 0), int(v != 0)])
 
-
-    return np.array(y_train)
+    y_train = np.array(y_train)
+#    y_train = np.expand_dims(y_train, axis=2)
+    print(y_train.shape)
+    print(y_train)
+    return y_train
     
 def run (protein):
     model = Sequential()
-    model.add(Conv1D(20,kernel_size = 26, input_shape=(None, (1, 404) ), strides = 4, padding='valid', activation='relu'))
-    
-    model.add(MaxPooling1D(pool_size=13, strides=13, padding='valid'))
-    
+    model.add(Conv1D(20, 6, input_shape=(404, 1), strides = 4, padding='valid')) #, activation='relu'))
+    #model.add(MaxPooling1D(pool_size=13, strides=13, padding='valid'))
+    model.add(MaxPooling1D(4)) #, padding='valid'))
+    model.add(Conv1D(20, 6, activation='relu'))
+    model.add(MaxPooling1D(4))
+    model.add(GlobalAveragePooling1D())
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(2, activation='sigmoid'))
 
-    model.add(Dense(input_dim=640, units=100))
+    print(model.summary())
     
-    model.add(Activation('relu'))
-    
-    model.add(Dense(input_dim=100, units=1))
-    
-    model.add(Activation('sigmoid'))
-        
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    model.summary()
-    
-
-    model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-
-    model.fit(get_seq(protein,"train"), get_class(protein,"train"), epochs=10, batch_size=100)
+    model.fit(get_seq(protein,"train"), get_class(protein,"train"), epochs=10, batch_size=16, verbose=1)
 
 
     score = model.evaluate(get_seq(protein,"test"), get_class(protein,"test"), batch_size=20) #test data je drugacne velikosti samo 1000 primerov
