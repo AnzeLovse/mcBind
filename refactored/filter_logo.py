@@ -1,12 +1,11 @@
 import os
-import sys
 
 import numpy as np
 import seqlogo
 from Bio import motifs
 
 # sys.path.append("~/miniconda3/pkgs/ghostscript-9.18-1/bin")
-print(sys.path)
+# print(sys.path)
 
 if not os.path.exists("results/filters"):
     os.makedirs("results/filters")

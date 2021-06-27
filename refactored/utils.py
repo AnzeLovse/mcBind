@@ -144,7 +144,7 @@ def get_fold(protein, t_data, training_set_number):
             "rt",
         ) as f:
             fold_data = np.loadtxt(f, skiprows=1)
-        fold = np.zeros((30000, 101, int(fold_data.shape[1] / 101)), dtype=np.int)
+        fold = np.zeros((30000, 101, int(fold_data.shape[1] / 101)), dtype=np.float64)
 
     elif t_data == "test":
         with gzip.open(
@@ -155,7 +155,7 @@ def get_fold(protein, t_data, training_set_number):
             "rt",
         ) as f:
             fold_data = np.loadtxt(f, skiprows=1)
-        fold = np.zeros((10000, 101, int(fold_data.shape[1] / 101)), dtype=np.int)
+        fold = np.zeros((10000, 101, int(fold_data.shape[1] / 101)), dtype=np.float64)
 
     for n in range(0, fold_data.shape[1], 101):
         a = fold_data[:, n : (n + 101)]

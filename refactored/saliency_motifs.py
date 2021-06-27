@@ -1,5 +1,4 @@
 import sys
-
 import warnings
 
 warnings.simplefilter(action="ignore", category=FutureWarning)

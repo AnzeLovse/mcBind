@@ -14,3 +14,5 @@ jupyter==1.0.0
 seaborn==0.11.1
 seqlogo==5.29.8
 orange3==3.26.0
+
+# pip install git+https://github.com/raghakot/keras-vis.git
