@@ -1,0 +1,21 @@
+name: mcbind
+channels:
+  - bioconda 
+dependencies:
+  - biopython=1.72
+  - h5py=2.10.0
+  - Keras=2.2.4
+  - Keras-Applications=1.0.8
+  - Keras-Preprocessing=1.1.2
+  - numpy=1.19.2
+  - pandas=1.1.3
+  - scikit-learn=0.24.1
+  - scipy=1.1.0
+  - tensorflow-gpu=1.10.0
+  - jupyter=1.0.0
+  - seaborn=0.11.1
+  - seqlogo=5.29.8
+  - orange3=3.26.0
+  - pip
+  - pip:
+    - "git+https://github.com/raghakot/keras-vis.git"

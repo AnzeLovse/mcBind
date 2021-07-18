@@ -1,36 +1,27 @@
+# mcBind
+
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine.
 
-### Prerequisites
+### Install the conda package manager
+Go to https://docs.conda.io/en/latest/miniconda.html and download the Miniconda installer:
+Choose Python 3.8 (or higher), your operating system, and preferably the 64 bit version.
 
-First you should clone into this directory.
+### Obtain mcBind
+
+First you should clone this repository.
 
 ```
 git clone git@github.com:AnzeLovse/RNAp-learn.git
 ```
+### Create and activate conda environment
 
-### Installing
-Build a Docker image from Dockerfile with the following command: 
-
-```
-docker build -t rnap .
-```
-
-After you have succsessfully built the image you can run it with: 
+Conda environment with the required libraries needs to be created.
+A list of needed libraries is provided in the environment.yaml file in the repository;
+it can be used to create a new environment:
 
 ```
-docker run -ti --device "device":/dev/nvidia0 -v "pwd":/rnap -p 127.0.0.1:8888:8888 -name rnap rnap 
-
-example: docker run -ti --device /dev/nvidia0:/dev/nvidia0 -v /home/alovse/nfs/RNAp-learn:/rnap -p 127.0.0.1:8888:8888 -name rnap rnap 
-```
-
-where device "device" is the path to your GPU and "pwd" is the path to the directory containing the notebooks
-
-## Running the tests
-
-Inside the container run jupyter notebook and then connect to ```localhost:8889``` in your browser
-
-```
-example run command: jupyter notebook --ip 0.0.0.0 --no-browser --allow-root --port 8889
+conda env create -f environment.yaml
 ```
