@@ -9,3 +9,5 @@ __pycache__/
 
 # Old files
 archive/
+results/
+shallow_model/
